@@ -16,27 +16,31 @@ _COLLECTION = "company-docs"
 def build_retriever() -> SemanticRetriever:
     embedder = SentenceTransformerEmbeddings()
     store = ChromaVectorStore(collection=_COLLECTION, path=_CHROMA_PATH)
-    return SemanticRetriever(embedder=embedder, vector_store=store)
+    retriever = SemanticRetriever(embedder=embedder, vector_store=store)
+
+    if store.count() == 0:
+        _index(retriever)
+
+    return retriever
 
 
-def load() -> None:
-    """Load docs/ into ChromaDB. Run once before using retrieval-chat."""
+def _index(retriever: SemanticRetriever) -> None:
     loader = DirectoryLoader(_DOCS_DIR, glob="**/*.md")
     splitter = RecursiveTextSplitter(chunk_size=400, overlap=50)
 
     documents = loader.load()
-    if not documents:
-        print(f"No documents found in {_DOCS_DIR}")
-        return
-
     chunks = []
     for doc in documents:
         chunks.extend(splitter.split(doc))
 
-    retriever = build_retriever()
     retriever.add(chunks)
 
-    print(f"Loaded {len(documents)} documents → {len(chunks)} chunks into ChromaDB.")
+
+def load() -> None:
+    """Force re-index docs/ into ChromaDB."""
+    retriever = build_retriever()
+    _index(retriever)
+    print(f"Indexed docs from {_DOCS_DIR} into ChromaDB.")
 
 
 if __name__ == "__main__":
