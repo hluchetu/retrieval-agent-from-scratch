@@ -1,0 +1,29 @@
+[project]
+name = "retrieval-agent-from-scratch"
+version = "0.1.0"
+description = "A retrieval-augmented agent built on top of Sophons"
+readme = "README.md"
+authors = [
+    { name = "luchetu", email = "humluchetu@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.0.0",
+    "openai>=2.38.0",
+    "prompt-toolkit>=3.0.52",
+    "pydantic>=2.13.4",
+    "pydantic-settings>=2.14.1",
+    "rich>=15.0.0",
+    "sophons",
+]
+
+[project.scripts]
+retrieval-chat = "retrieval_agent_from_scratch.cli:main"
+load-knowledge = "retrieval_agent_from_scratch.knowledge:load"
+
+[build-system]
+requires = ["uv_build>=0.10.8,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+sophons = { path = "../sophons", editable = true }
