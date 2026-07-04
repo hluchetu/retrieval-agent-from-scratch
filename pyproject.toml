@@ -14,7 +14,7 @@ dependencies = [
     "pydantic>=2.13.4",
     "pydantic-settings>=2.14.1",
     "rich>=15.0.0",
-    "sophons",
+    "sophons[sentence-transformers]",
 ]
 
 [project.scripts]

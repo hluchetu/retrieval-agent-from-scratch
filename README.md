@@ -29,7 +29,7 @@ User question
 └─────────────┘
 ```
 
-The agent uses `deepseek-reasoner` for reasoning. Documents are embedded with OpenAI `text-embedding-3-small` and stored in a local ChromaDB collection.
+The agent uses `deepseek-chat` for reasoning. Documents are embedded locally with `sentence-transformers` (`all-MiniLM-L6-v2`) and stored in a local ChromaDB collection. No OpenAI key needed for embeddings.
 
 ## Project structure
 
@@ -52,9 +52,9 @@ retrieval-agent-from-scratch/
 # Install dependencies
 uv sync
 
-# Add your API keys
+# Add your API key
 cp .env.example .env
-# Fill in DEEPSEEK_API_KEY and OPENAI_API_KEY
+# Fill in DEEPSEEK_API_KEY only — embeddings run locally
 
 # Load the knowledge base (run once)
 uv run load-knowledge
