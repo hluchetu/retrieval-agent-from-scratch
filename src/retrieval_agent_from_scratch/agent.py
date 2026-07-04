@@ -27,9 +27,11 @@ def build_agent() -> Agent:
         model=DeepSeekModel(model="deepseek-chat", api_key=settings.deepseek_api_key),
         tools=[search_tool],
         system_prompt=(
-            "You are a support assistant with access to company documentation. "
-            "Always search the docs before answering policy questions. "
-            "If the documentation does not contain an answer, say so clearly — "
-            "do not make up information."
+            "You are a support assistant. Your only knowledge source is the company documentation — "
+            "always search it before answering any question. "
+            "If the documentation does not contain the answer, say: "
+            "'I can only answer questions about our company policies and documentation. "
+            "That topic is not covered here.' "
+            "Never answer from your own training knowledge."
         ),
     )
